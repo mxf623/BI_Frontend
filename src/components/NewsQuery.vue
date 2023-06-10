@@ -60,7 +60,7 @@ import 'primeicons/primeicons.css';
             const selectedCategories=reactive([])
             const titleLength = reactive({ min: 0, max: 200000 });
             const newsLength = reactive({ min: 0, max: 300000 });
-
+            
             const users=reactive([''])
             const selectedDate=reactive(null)
 
@@ -223,7 +223,7 @@ import 'primeicons/primeicons.css';
             let data=reactive({})
             let interval=null//定时器
             let res=ref([])
-
+            
             let needs={
                     year:2019,
                     month_min:6,
@@ -278,8 +278,8 @@ import 'primeicons/primeicons.css';
             position: relative;
             left: 30px;
             top: 10px;
-            overflow: hidden;
- 	        text-overflow: ellipsis;
+            overflow: hidden;    
+ 	        text-overflow: ellipsis; 
              white-space: nowrap;
         }
     }
