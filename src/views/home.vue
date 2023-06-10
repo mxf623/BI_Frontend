@@ -1,7 +1,7 @@
 <template>
     <div>
         <header>
-            <link rel="stylesheet" href="https://unpkg.com/primeicons/primeicons.css" />
+            
             <h1>新闻数据可视化</h1>
             <div class="search">
                 <span class="p-input-icon-left">
@@ -15,7 +15,6 @@
                         <RadioButton v-model="state.ingredient" inputId="ingredient1" name="choice" value="user" />
                         <label for="ingredient1" class="ml-2">按用户</label>
                     </div>
-                    &nbsp;
                     <div class="flex align-items-center">
                         <RadioButton v-model="state.ingredient" inputId="ingredient2" name="choice" value="news" />
                         <label for="ingredient2" class="ml-2">按新闻</label>
@@ -30,17 +29,17 @@
                     <newsLine :newsID="state.n_id"></newsLine>
                 </Item>
                 
-                <Item>
+                <!-- <Item>
                     <recommend></recommend>
-                </Item>
+                </Item> -->
             </section>
             <section class="right">
-                <Item>
+                <!-- <Item>
                     <categoryLine></categoryLine>
-                </Item>
-                <Item>
+                </Item> -->
+                <!-- <Item>
                     <NewsQuery></NewsQuery>
-                </Item>
+                </Item> -->
                 <Item>
                     <UserNewsLine :UserID="state.u_id"></UserNewsLine>
                 </Item>
@@ -75,10 +74,10 @@ export default {
     components :{
         Item,
         newsLine,
-        categoryLine,
+        //categoryLine,
         //UserNewsBar,
-        recommend,
-        NewsQuery,
+        //recommend,
+        //NewsQuery,
         UserNewsLine,
         InputText,
         RadioButton

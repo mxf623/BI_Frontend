@@ -230,7 +230,7 @@ export default{
             function Timer(){
             interval=setInterval(()=>{
                 getState();
-            },1000*30)//每隔30s请求一次数据
+            },1000*10)//每隔10s请求一次数据
         }
 
             onMounted(()=>{
