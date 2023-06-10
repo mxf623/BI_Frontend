@@ -36,14 +36,14 @@
                     newsLength_min:0,
                     titleLength_max:200000,
                     newsLength_max:300000,
-                    userId:""
+                    userId:"",
+                    amount:5
                 }
 
             async function getState(){
                 console.log("111")
                 data=await multiQuery(needs)
-                console.log("test")
-                console.log(needs)
+                console.log("needs")
                 console.log(data)
                 res.value=data.data
                 console.log(res)
@@ -87,8 +87,8 @@
             position: relative;
             left: 30px;
             top: 10px;
-            overflow: hidden;    
- 	        text-overflow: ellipsis; 
+            overflow: hidden;
+ 	        text-overflow: ellipsis;
              white-space: nowrap;
         }
     }

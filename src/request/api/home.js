@@ -55,7 +55,7 @@ export function getNewsCA(data) {
 
 //复合查询 multiQuery
 export function multiQuery(data) {
-    console.log("111")
+    console.log("multiQuery")
     console.log(data)
     return service.post("/multiQuery",data)
 }
