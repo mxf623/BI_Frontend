@@ -10,7 +10,7 @@
 </template>
 
 <script>    
-import {inject , onMounted, reactive,watch} from "vue"
+import {inject , onMounted, reactive,watch,onBeforeUnmount} from "vue"
 import {getLifeTime,newsClickDay} from "@/request/api/home.js"
 
     export default{
@@ -31,6 +31,9 @@ import {getLifeTime,newsClickDay} from "@/request/api/home.js"
             let end=reactive({})
             let counts=reactive([])
             let myChart=null
+            let interval=null//定时器
+            
+            let currDate = null
 
             async function getState(){
                 data=await getLifeTime(props.newsID)
@@ -41,11 +44,14 @@ import {getLifeTime,newsClickDay} from "@/request/api/home.js"
                 end=`${endTime.getFullYear()}-${endTime.getMonth() + 1}-${endTime.getDate()}`;
                 console.log(data)
                 console.log(start)
+                currDate = new Date(start)
                 getCount()
             }
 
             async function getCount(){
-                let currDate = new Date(start)
+                let data1=await getLifeTime(props.newsID)
+                let endTime=new Date(data.data.end)
+                end=`${endTime.getFullYear()}-${endTime.getMonth() + 1}-${endTime.getDate()}`;
                 let endDate = new Date(end)
                 let DATA={
                 newId:"N27499",
@@ -53,7 +59,9 @@ import {getLifeTime,newsClickDay} from "@/request/api/home.js"
                 month:6,
                 day:15
                 }
-
+                console.log(data1)
+                console.log(end)
+                console.log(currDate)
                 while (currDate <= endDate) {
                     let dateStr = `${currDate.getFullYear()}-${currDate.getMonth() + 1}-${currDate.getDate()}`
                     DATA.newId=props.newsID
@@ -62,14 +70,29 @@ import {getLifeTime,newsClickDay} from "@/request/api/home.js"
                     DATA.day=currDate.getDate()
 
                     console.log(DATA.newId)
+                    console.log(currDate)
 
                     let countData = await newsClickDay(DATA)
                     console.log(countData)
-                    counts.push({
-                        date: dateStr,
-                        count: countData.data
-                    })
-                currDate.setDate(currDate.getDate() + 1)
+                    let counts1=counts
+                    console.log(counts1.length)
+                    console.log(counts.length)
+                    //遍历
+                    for(let i=0;i<counts1.length;i++){
+                        const item=counts1[i]
+                        if(item[0]===dateStr){
+                            currDate.setDate(currDate.getDate() + 1)
+                            break
+                        }
+                        else{
+                            counts.push({
+                                date: dateStr,
+                                count: countData.data
+                            })
+                            currDate.setDate(currDate.getDate() + 1)
+                        }
+                    }
+                
                 }
                 console.log(counts)
                 showChart()
@@ -140,6 +163,11 @@ import {getLifeTime,newsClickDay} from "@/request/api/home.js"
                 getState()
             })
 
+            function Timer(){
+            interval=setInterval(()=>{
+                getCount();
+            },1000*10)//每隔30s请求一次数据
+        }
             onMounted(()=>{
                 getState()
                 setTimeout(() => {
@@ -147,10 +175,15 @@ import {getLifeTime,newsClickDay} from "@/request/api/home.js"
                     myChart.resize();
                 }
                 }, 1000); 
+                Timer()
+            })
+
+            onBeforeUnmount(()=>{
+            clearInterval(interval)
             })
 
             return{
-                getState,data
+                getState,data,getDate
             }
         }
     }
