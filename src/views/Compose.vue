@@ -90,6 +90,7 @@
 
 <script>
 import {multiQuery} from '@/request/api/home.js'
+import Message from '../store/Message'
 export default {
   data() {
     return {
@@ -207,7 +208,7 @@ export default {
       vm.tableData = undefined;
       vm.tableData = new Array(); //先清空再进行筛选
       //vm. titleLength_max!= "" && vm.newsLength_max != ""
-      if (true) {
+      if (vm. titleLength_max!= "" && vm.newsLength_max != "" && vm.start_time !="" && vm.end_time != ""&&vm.amount!='') {
         let vim = this;
         console.log('addd')
         var needs={
@@ -232,6 +233,17 @@ export default {
         });
             vm.count = 0;
 
+        }
+        else if(vm. titleLength_max== ""){
+          Message({type:'error',text:'标题最大长度不能为空'})
+        }else if(vm.newsLength_max == ""){
+          Message({type:'error',text:'新闻最大长度不能为空'})
+        }else if(vm.start_time == ""){
+          Message({type:'error',text:'开始时间不能为空'})
+        }else if(vm.end_time == ""){
+          Message({type:'error',text:'结束时间不能为空'})
+        }else if(vm.amount == ""){
+          Message({type:'error',text:'请求数量不能为空'})
         }
     },
   }

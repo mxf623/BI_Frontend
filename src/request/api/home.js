@@ -35,7 +35,7 @@ export function recommendCategory(){
 
 //获取某天某新闻点击量
 export function newsClickDay(data) {
-    return service.post("/newsClickDay",data)
+    return service.post("/newsClickByDay",data)
 }
 
 //获取某天某种类点击量
