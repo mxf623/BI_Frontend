@@ -262,7 +262,9 @@ export default{
         font-size: 20px;
         font-weight: 530;
         color: rgb(90, 87, 87);
-        padding-top: .3125rem
+        padding-top: .3125rem;
+        position: absolute;
+        top: 15px;
     }
     .contain{
         width: 100%;

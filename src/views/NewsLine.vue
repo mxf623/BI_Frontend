@@ -189,12 +189,14 @@ import {getLifeTime,newsClickDay} from "@/request/api/home.js"
         font-size: 20px;
         font-weight: 530;
         color: rgb(90, 87, 87);
-        padding-top: .3125rem
+        padding-top: .3125rem;
+        position: absolute;
+        top: 15px;
     }
       
      #chartOne{
         position: absolute;
-        left: 400px;
+        left: 20px;
         right: 20px;
         width: 42.5rem;
         height: 23rem;

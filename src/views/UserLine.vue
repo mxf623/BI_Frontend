@@ -1,6 +1,7 @@
 <template>
-    <div class="top">
-        <h2>某种新闻点击量变化</h2>
+    <link rel="stylesheet" href="https://unpkg.com/primeicons/primeicons.css" />
+    <div class="top"> 
+        <h2>用户兴趣变化统计查询</h2>   
         <div class="contain">
             <div class="card flex flex-wrap justify-content-center gap-3">
                 <div class="flex align-items-center">
@@ -64,34 +65,45 @@
                     <label for="kids" class="ml-15"> kids </label>
                 </div>
             </div>  
-            <div class="chart">
-                <div id="chartCL"></div>
+            <div class="charts">
+                <div id="chartUL">
+                    
+                </div>
             </div>
-            </div>
+        </div>
     </div>
 </template>
 
 <script>
     import {inject , onMounted, reactive,watch,ref,onBeforeUnmount} from "vue"
-    import {getCategoryClick} from '@/request/api/home.js'
+    import {categoryClickUserDay,getUserCategoryClick} from '@/request/api/home.js'
     import Checkbox from 'primevue/checkbox';
 import 'primevue/resources/themes/saga-blue/theme.css';
 import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
 
-export default{
-    components:{
-        Checkbox
-    },
-    setup(){
-        let $echarts = inject("echarts")
-        let data_=reactive({})
-        let arr=reactive([])
-        let chartData = reactive({});
-        let interval=null//定时器
-        let myChartCL=null
+export default {
+        components :{
+            Checkbox,
+        },
+        props:{
+            UserID:{
+                type:String,
+                require:true,
+                default:'U201361'
+            }
+        },
+        setup(props){
+            let $echarts = inject("echarts")
+            //let $http = inject("axios")
 
-        const option=reactive({
+            let data_=reactive({})
+            let arr=reactive([])
+            let chartData = reactive({});
+            let interval=null//定时器
+            let myChartUL=null
+            //const option = ref()
+            const option=reactive({
                 news: false,
                 sports: false,
                 FD: false,
@@ -109,35 +121,86 @@ export default{
                 kids: false,
                 });
             console.log(option)
+            
+            const arr1=[ {
+        "news": {
+            amount: "1",
+            time: "2019-06-13 17:00:00"
+        }
+    },
+                {
+                    "sports": {
+                        amount: "2",
+                        "time": "2019-06-13 17:00:00"
+                    }
+                },
+                {
+                    "weather": {
+                        amount: "3",
+                        "time": "2019-06-18 17:00:00"
+                    }
+                },
+                {
+                    "health": {
+                        amount: "3",
+                        "time": "2019-06-17 17:00:00"
+                    }
+                },
+                {
+                    "video": {
+                        amount: "1",
+                        "time": "2019-06-17 17:00:00"
+                    }
+                },
+                {
+                    "tv": {
+                        amount: "4",
+                        "time": "2019-06-13 17:00:00"
+                    }
+                },
+                {
+                    "autos": {
+                        amount: "3",
+                        "time": "2019-06-13 17:00:00"
+                    }
+                },
+                {
+                    "kids": {
+                        amount: "7",
+                        "time": "2019-06-16 17:00:00"
+                    }
+                },
+            ]
 
-            // 按照时间排序
-            function processData(){
+            // 将时间字符串转换为日期对象
+            function parseDate(str) {
+                const [year, month, day] = str.split('-');
+                return new Date(year, month - 1, day);
+            }
+            
+               // 按照时间排序
+               function processData(){
                     chartData.y=reactive([])
-                    const sortedData =arr.map(obj=>{
-                        const key=Object.keys(obj)[0]
-                        const a1=obj[key].sort((a,b)=>{
-                            const timeA=new Date(a.time)
-                            const timeB=new Date(b.time)
-                            return timeA - timeB
-                        })
-                        return {[key]:a1}
-                    })
-                    console.log(sortedData)
+                    const sortedData = arr.sort((a, b) => {
+                    const timeA = parseDate(a[Object.keys(a)[0]].time);
+                    const timeB = parseDate(b[Object.keys(b)[0]].time);
+                    return timeA - timeB;
+                });
                 // 统计每种新闻类型在每个日期的点击量
                 const dataByTypeAndDate = {};
-                sortedData.forEach(obj => {
-                const type = Object.keys(obj)[0];
-                obj[type].forEach(item=>{
-                    const date=item.time.slice(0,10)
-                    if (!dataByTypeAndDate[type]) {
-                        dataByTypeAndDate[type] = {};
-                    }
-                    if (!dataByTypeAndDate[type][date]) {
-                        dataByTypeAndDate[type][date] = 0;
-                    }
-                    dataByTypeAndDate[type][date] += parseInt(item.amount);
-                })
-             });
+                //console.log(sortedData)
+                sortedData.forEach(item => {
+                const type = Object.keys(item)[0];
+                const timeStr = item[type].time.substring(0, 10); // 截取年月日部分
+                const date = parseDate(timeStr);
+                if (!dataByTypeAndDate[type]) {
+                    dataByTypeAndDate[type] = {};
+                }
+                if (!dataByTypeAndDate[type][timeStr]) {
+                    dataByTypeAndDate[type][timeStr] = 0;
+                }
+                dataByTypeAndDate[type][timeStr] += parseInt(item[type].amount);
+            });
 
             console.log(dataByTypeAndDate);
 
@@ -180,11 +243,12 @@ export default{
                }
 
             async function getState(){
-                data_=await getCategoryClick()
-                console.log(data_)
+                data_=await getUserCategoryClick(props.UserID)
+
                 arr=data_.data
                 console.log(arr)
                 processData()
+                console.log(chartData)
                 showChart()
             }
 
@@ -209,9 +273,15 @@ export default{
                         symbolSize:8
                     }))
                 }
-                myChartCL=$echarts.init(document.getElementById("chartCL"))
-                myChartCL.setOption(option1)
+                myChartUL=$echarts.init(document.getElementById("chartUL"))
+                myChartUL.setOption(option1)
             }
+
+            watch(()=>props.UserID,(newValue,oldValue)=>{
+                console.log(newValue,oldValue)
+                //counts=[]
+                getState()
+            })
 
             watch(
                 () => arr,
@@ -219,7 +289,6 @@ export default{
                     getState();
                 }
             );
-
             watch(() => option,
                 () => {
                     getState();
@@ -230,16 +299,15 @@ export default{
             function Timer(){
             interval=setInterval(()=>{
                 getState();
-            },1000*5)//每隔10s请求一次数据
+            },1000*30)//每隔30s请求一次数据
         }
 
             onMounted(()=>{
                 getState() 
                 setTimeout(() => {
-                    if(myChartCL){
-                    myChartCL.resize();
+                    if(myChartUL){
+                    myChartUL.resize();
                 }
-                showChart()
                 }, 1000); 
                 Timer()
             })
@@ -248,21 +316,23 @@ export default{
             clearInterval(interval)
             })
 
-            return {
-                option,getState,data_,chartData
+            return{
+                getState,data_,option,chartData
             }
+        }
     }
-}
 </script>
 
 <style lang="less">
-     .top{
+   .top{
         width: 100%;
     h2{
         font-size: 20px;
         font-weight: 530;
         color: rgb(90, 87, 87);
-        padding-top: .3125rem
+        padding-top: .3125rem;
+        position: absolute;
+        top: 15px;
     }
     .contain{
         width: 100%;
@@ -278,13 +348,12 @@ export default{
         }
     }
       
-    #chartCL{
+     #chartUL{
         position: absolute;
         right: 40px;
         width: 42.5rem;
         height: 23rem;
         } 
-    
     }  
 
     }

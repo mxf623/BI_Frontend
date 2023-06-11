@@ -1,8 +1,20 @@
 <template>
-    <div>
-        <header>
+    <el-container>
+    <el-aside style="width: 300px; height: 780px;background-color: #545c64">
+      <Navigation></Navigation>
+    </el-aside>
+    <el-container>
+      <el-header style="text-align: right; font-size: 12px">
+        <Topnav></Topnav>
+      </el-header>
+
+      <el-main>
+        <router-view></router-view>
+      </el-main>
+    </el-container>
+    </el-container>
+        <!-- <header>
             
-            <h1>新闻数据可视化</h1>
             <div class="search">
                 <span class="p-input-icon-left">
                     <i class="pi pi-search" />
@@ -21,31 +33,30 @@
                     </div>
                 </div>
             </div>
-        </header>
-        <!-- <p>输出  {{ state.ingredient }}{{ state.u_id }}{{ state.n_id }}</p> -->
-        <section class="container">
+        </header> -->
+        <!-- <section class="container">
             <section class="left">
                 <Item>
                     <newsLine :newsID="state.n_id"></newsLine>
                 </Item>
                 
-                <!-- <Item>
+                <Item>
                     <recommend></recommend>
-                </Item> -->
+                </Item>
             </section>
             <section class="right">
-                <!-- <Item>
+                <Item>
                     <categoryLine></categoryLine>
-                </Item> -->
-                <!-- <Item>
+                </Item>
+                <Item>
                     <NewsQuery></NewsQuery>
-                </Item> -->
+                </Item>
                 <Item>
                     <UserNewsLine :UserID="state.u_id"></UserNewsLine>
                 </Item>
             </section>
-        </section>
-    </div>
+        </section> -->
+
 </template>
 
 <script>
@@ -67,51 +78,53 @@ import "primevue/resources/primevue.min.css";
 import { ref } from 'vue';
 import RadioButton from 'primevue/radiobutton';
 import global_msg from "../global.js"
+import Navigation from "../components/nav.vue"
 
 const ingredient = ref('');
 
 export default {
     components :{
-        Item,
-        newsLine,
-        //categoryLine,
-        //UserNewsBar,
-        //recommend,
-        //NewsQuery,
-        UserNewsLine,
-        InputText,
-        RadioButton
+        // Item,
+        // newsLine,
+        // //categoryLine,
+        // //UserNewsBar,
+        // //recommend,
+        // //NewsQuery,
+        // UserNewsLine,
+        // InputText,
+        // RadioButton,
+        Navigation
     },
 
     setup(){
         //接收
-        let $echarts = inject("echarts")
-        let $http = inject("axios")
-        const state=reactive({
-            ingredient:'user',
-            value1:'',
-            u_id:'U201361',
-            n_id:'N27499'
-        });
+        // let $echarts = inject("echarts")
+        // let $http = inject("axios")
+        // const state=reactive({
+        //     ingredient:'user',
+        //     value1:'',
+        //     u_id:'U201361',
+        //     n_id:'N27499'
+        // });
 
-        const enterKey=()=>{
-            if(state.ingredient==='user'){
-                state.u_id=state.value1
-                console.log("test")
-                console.log(state.u_id)
-            }
-            else if(state.ingredient==='news'){
-                state.n_id=state.value1
-                console.log(state.n_id)
-            }
-        };
+        // const enterKey=()=>{
+        //     if(state.ingredient==='user'){
+        //         state.u_id=state.value1
+        //         console.log("test")
+        //         console.log(state.u_id)
+        //     }
+        //     else if(state.ingredient==='news'){
+        //         state.n_id=state.value1
+        //         console.log(state.n_id)
+        //     }
+        // };
         
-        onMounted(()=>{
-            //console.log(global_msg.newsID)
-        })
-        return{
-            state,enterKey
-        }
+        // onMounted(()=>{
+        //     //console.log(global_msg.newsID)
+        // })
+        // return{
+        //     state,enterKey
+        // }
     }
 }
 
@@ -121,15 +134,6 @@ export default {
 header{
     height: 3.75rem;
     width: 100%;
-    background-color: #928f8f;
-    h1{
-        font-weight: 500;
-        font-size: 1.7625rem;
-        color:white;
-        display: flex;
-        justify-content: center;
-        line-height: 3.75rem;
-    }
     .p-input-icon-left{
             position: absolute;
             right: 15rem;
@@ -144,7 +148,7 @@ header{
         top: 1.125rem;
         right: 2.5rem;
         .ml-1,.ml-2{
-            color: white;
+            color: rgb(34, 33, 33);
             font-size: large;
             font-weight: 200;
         }
