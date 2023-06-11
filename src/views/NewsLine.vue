@@ -23,6 +23,8 @@
         </header>
         <div class="top">
             <h2>单个新闻生命周期内点击量</h2>
+            <p>新闻生命周期从{{ start }}开始</p>
+
         <div id="chartOne" class="chart">
 
             </div>
@@ -32,7 +34,7 @@
 
 <script>    
 import {inject , onMounted,ref, reactive,watch,onBeforeUnmount} from "vue"
-import {getLifeTime,newsClickByDay} from "@/request/api/home.js"
+import {getLifeTime,newsClickByDay,newsDayClick} from "@/request/api/home.js"
 import 'primevue/resources/themes/saga-blue/theme.css';
 import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
@@ -57,7 +59,7 @@ import InputText from 'primevue/inputtext';
             //let $http = inject("axios")
 
             let data=reactive({})
-            let start=reactive({})
+            let start=ref({})
             let end=reactive({})
             let counts=ref([])
             let myChart=null
@@ -72,64 +74,40 @@ import InputText from 'primevue/inputtext';
         });
 
             async function getState(){
-                if(isLoading) return;
-                isLoading=true
-                try{
-                    data=await getLifeTime(state.n_id)
-                    //console.log(global_msg.newsID)
-                    let startTime=new Date(data.data.start)
-                    let endTime=new Date(data.data.end)
-                    start=`${startTime.getFullYear()}-${startTime.getMonth() + 1}-${startTime.getDate()}`
-                    end=`${endTime.getFullYear()}-${endTime.getMonth() + 1}-${endTime.getDate()}`;
-                    console.log(data)
-                    console.log(start)
-                    await getCount()
-                }
-                finally{
-                    isLoading=false
-                }
-            }
-
-            async function getCount(){
-                let currDate = new Date(start)
-                let endDate = new Date(end)
-                let DATA={
-                newId:"N27499",
-                year:2019,
-                month:6,
-                day:15
-                }
-
-                counts.value=[]
-                while (currDate <= endDate) {
-                    let dateStr = `${currDate.getFullYear()}-${currDate.getMonth() + 1}-${currDate.getDate()}`
-                    DATA.newId=state.n_id
-                    DATA.year=currDate.getFullYear()
-                    DATA.month=currDate.getMonth() + 1
-                    DATA.day=currDate.getDate()
-
-                    console.log(DATA.newId)
-
-                    let countData = await newsClickByDay(DATA)
-                    console.log(countData)
-                    counts.value.push({
-                        date: dateStr,
-                        count: countData.data
-                    })
-                    counts.value.sort((a, b) => a.date.localeCompare(b.date));
-                currDate.setDate(currDate.getDate() + 1)
-                }
-                console.log(counts)
+                data=await newsDayClick(state.n_id)
+                console.log(data)
+                counts.value=data.data
+                console.log(counts.value)
                 showChart()
+                showTimeRange()
             }
+            function showTimeRange() {
+                if (counts.value.length === 0) {
+                    start.value = ''
+                    end.value = ''
+                    return
+                }
+                let min = counts.value[0].time
+                let max = counts.value[0].time
+                counts.value.forEach(item => {
+                    if (item.time < min) {
+                    min = item.time
+                    }
+                    if (item.time > max) {
+                    max = item.time
+                    }
+                })
+                start.value = min
+                end.value = max
+                }
             
             function showChart(){
                 if (!myChart) {
                     myChart = $echarts.init(document.getElementById("chartOne"));
                 }
                 
-                let xData = counts.value.map(item => item.date)
-                let yData = counts.value.map(item => item.count)
+                let xData = counts.value.map(item => item.time)
+                let yData = counts.value.map(item => item.amount)
                 myChart = $echarts.init(document.getElementById("chartOne"))
                 myChart.setOption({
                     xAxis: {
@@ -195,7 +173,7 @@ import InputText from 'primevue/inputtext';
             function Timer(){
             interval=setInterval(()=>{
                 getState();
-            },1000*5)//每隔30s请求一次数据
+            },1000*3)//每隔30s请求一次数据
         }
 
         const enterKey=()=>{
@@ -223,7 +201,7 @@ import InputText from 'primevue/inputtext';
             })
 
             return{
-                getState,data,enterKey,state
+                getState,data,enterKey,state,start
             }
         }
     }
@@ -268,7 +246,12 @@ import InputText from 'primevue/inputtext';
         position: absolute;
         top: 15px;
     }
-      
+      p{
+        font-size: 1px;
+        font-weight: 530;
+        color: rgb(147, 144, 144);
+        padding-left: 150px;
+      }
      #chartOne{
         position: absolute;
         left: 400px;

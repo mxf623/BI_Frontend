@@ -9,6 +9,13 @@ export function getLifeTime(data){
     })
 }
 
+export function newsDayClick(data){
+    return service({
+        method:"GET",
+        url:`/newsDayClick?newsId=${data}`,
+    })
+}
+
 //获取某个用户的新闻类型和点击量
 export function getUserCategoryClick(data){
     return service({
@@ -35,7 +42,6 @@ export function recommendCategory(){
 
 //获取某天某新闻点击量
 export function newsClickByDay(data) {
-    console.log("11111")
     return service.post("/newsClickByDay",data)
 }
 

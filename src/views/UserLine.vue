@@ -330,13 +330,12 @@ export default {
             function Timer(){
             interval=setInterval(()=>{
                 getState();
-            },1000*30)//每隔30s请求一次数据
+            },1000*1)//每隔30s请求一次数据
         }
 
          const enterKey=()=>{
             if(state.ingredient==='user'){
                 state.u_id=state.value1
-                console.log("test")
                 console.log(state.u_id)
             }
             else if(state.ingredient==='news'){

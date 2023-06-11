@@ -13,29 +13,6 @@
       </el-main>
     </el-container>
     </el-container>
-       
-        <!-- <section class="container">
-            <section class="left">
-                <Item>
-                    <newsLine :newsID="state.n_id"></newsLine>
-                </Item>
-                
-                <Item>
-                    <recommend></recommend>
-                </Item>
-            </section>
-            <section class="right">
-                <Item>
-                    <categoryLine></categoryLine>
-                </Item>
-                <Item>
-                    <NewsQuery></NewsQuery>
-                </Item>
-                <Item>
-                    <UserNewsLine :UserID="state.u_id"></UserNewsLine>
-                </Item>
-            </section>
-        </section> -->
 
 </template>
 
@@ -54,47 +31,11 @@ const ingredient = ref('');
 
 export default {
     components :{
-        // Item,
-        // newsLine,
-        // //categoryLine,
-        // //UserNewsBar,
-        // //recommend,
-        // //NewsQuery,
-        // UserNewsLine,
-        // InputText,
-        // RadioButton,
         Navigation
     },
 
     setup(){
-        //接收
-        // let $echarts = inject("echarts")
-        // let $http = inject("axios")
-        // const state=reactive({
-        //     ingredient:'user',
-        //     value1:'',
-        //     u_id:'U201361',
-        //     n_id:'N27499'
-        // });
-
-        // const enterKey=()=>{
-        //     if(state.ingredient==='user'){
-        //         state.u_id=state.value1
-        //         console.log("test")
-        //         console.log(state.u_id)
-        //     }
-        //     else if(state.ingredient==='news'){
-        //         state.n_id=state.value1
-        //         console.log(state.n_id)
-        //     }
-        // };
         
-        // onMounted(()=>{
-        //     //console.log(global_msg.newsID)
-        // })
-        // return{
-        //     state,enterKey
-        // }
     }
 }
 
