@@ -1,12 +1,23 @@
 <template>
     <div class="recommend">
         <h2>实时推送</h2>
-        <div v-for="item in res" :key="item.newsId" class="newsTitle">
+        <!-- <div v-for="item in res" :key="item.newsId" class="newsTitle">
             {{item.headline}}
             {{item.newsId}}
             {{item.topic}}
             {{item.newsBody}}
-        </div>
+        </div> -->
+        <el-table :data="res" stripe style="width: 100%">
+        <el-table-column prop="newsId" label="新闻id">
+        </el-table-column>
+        <el-table-column prop="category" label="新闻类型"> </el-table-column>
+        <el-table-column prop="topic" label="新闻主题">
+        </el-table-column>
+        <el-table-column prop="headline" label="新闻标题">
+        </el-table-column>
+        <el-table-column prop="newsBody" label="新闻内容" :show-overflow-tooltip="true">
+        </el-table-column>
+      </el-table>
     </div>
 </template>
 
@@ -72,11 +83,11 @@ export default{
             position: relative;
             left: 30px;
             top: 10px;
-            overflow: hidden;    
- 	        text-overflow: ellipsis; 
+            overflow: hidden;
+ 	        text-overflow: ellipsis;
              white-space: nowrap;
         }
-        
+
     h2{
         font-size: 20px;
         font-weight: 530;
