@@ -39,7 +39,7 @@ export default{
 
             let needs={
                 category:"news",
-                amount:13
+                amount:9
             }
 
             needs.category=category
