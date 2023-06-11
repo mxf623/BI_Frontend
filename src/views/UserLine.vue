@@ -1,5 +1,26 @@
 <template>
     <link rel="stylesheet" href="https://unpkg.com/primeicons/primeicons.css" />
+     <header>
+            
+            <div class="search">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search" />
+                    <InputText v-model="state.value1" class="p-inputtext-sm" placeholder="Search" @keydown.enter="enterKey"/>
+                </span>
+            </div>
+            <div class="card flex justify-content-center">
+                <div class="flex flex-wrap gap-3">
+                    <div class="flex align-items-center">
+                        <RadioButton v-model="state.ingredient" inputId="ingredient1" name="choice" value="user" />
+                        <label for="ingredient1" class="ml-2">按用户</label>
+                    </div>
+                    <div class="flex align-items-center">
+                        <RadioButton v-model="state.ingredient" inputId="ingredient2" name="choice" value="news" />
+                        <label for="ingredient2" class="ml-2">按新闻</label>
+                    </div>
+                </div>
+            </div>
+        </header>
     <div class="top"> 
         <h2>用户兴趣变化统计查询</h2>   
         <div class="contain">
@@ -81,10 +102,14 @@
 import 'primevue/resources/themes/saga-blue/theme.css';
 import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
+import RadioButton from 'primevue/radiobutton';
+import InputText from 'primevue/inputtext';
 
 export default {
         components :{
             Checkbox,
+            RadioButton,
+            InputText
         },
         props:{
             UserID:{
@@ -94,6 +119,12 @@ export default {
             }
         },
         setup(props){
+            const state=reactive({
+            ingredient:'user',
+            value1:'',
+            u_id:'U201361',
+            n_id:'N27499'
+        });
             let $echarts = inject("echarts")
             //let $http = inject("axios")
 
@@ -243,7 +274,7 @@ export default {
                }
 
             async function getState(){
-                data_=await getUserCategoryClick(props.UserID)
+                data_=await getUserCategoryClick(state.u_id)
 
                 arr=data_.data
                 console.log(arr)
@@ -299,9 +330,19 @@ export default {
             function Timer(){
             interval=setInterval(()=>{
                 getState();
-            },1000*30)//每隔30s请求一次数据
+            },1000*1)//每隔30s请求一次数据
         }
 
+         const enterKey=()=>{
+            if(state.ingredient==='user'){
+                state.u_id=state.value1
+                console.log(state.u_id)
+            }
+            else if(state.ingredient==='news'){
+                state.n_id=state.value1
+                console.log(state.n_id)
+            }
+        };
             onMounted(()=>{
                 getState() 
                 setTimeout(() => {
@@ -317,7 +358,7 @@ export default {
             })
 
             return{
-                getState,data_,option,chartData
+                getState,data_,option,chartData,enterKey,state
             }
         }
     }
@@ -350,9 +391,10 @@ export default {
       
      #chartUL{
         position: absolute;
-        right: 40px;
-        width: 42.5rem;
-        height: 23rem;
+        top: 80px;
+        left: 400px;
+        width: 70rem;
+        height: 33rem;
         } 
     }  
 

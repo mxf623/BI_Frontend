@@ -276,15 +276,16 @@ export default{
     .ml-1,.ml-2,.ml-3,.ml-4,.ml-5,.ml-6,.ml-7,.ml-8,.ml-9,.ml-10,.ml-11,.ml-12,.ml-13,.ml-14,.ml-15{
             font-size: 17px;
             font-weight: 200;
-            padding-top: 1.725rem;
+            padding-top: 3.725rem;
         }
     }
       
     #chartCL{
         position: absolute;
-        right: 40px;
-        width: 42.5rem;
-        height: 23rem;
+        top: 20px;
+        left: 400px;
+        width: 70rem;
+        height: 33rem;
         } 
     
     }  

@@ -12,15 +12,15 @@
           active-text-color="#ffd04b"
           router
         >
-         
+        <el-menu-item index="/NewsLine">
+          <i class="el-icon-setting"></i>
+          单个新闻变化
+        </el-menu-item>
           <el-menu-item index="/categoryLine">
             <i class="el-icon-setting"></i>
             某种新闻变化
           </el-menu-item>
-          <el-menu-item index="/NewsLine">
-            <i class="el-icon-setting"></i>
-            单个新闻变化
-          </el-menu-item>
+          
           <el-menu-item index="/UserLine">
             <i class="el-icon-setting"></i>
             用户兴趣变化

@@ -13,63 +13,10 @@
       </el-main>
     </el-container>
     </el-container>
-        <!-- <header>
-            
-            <div class="search">
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search" />
-                    <InputText v-model="state.value1" class="p-inputtext-sm" placeholder="Search" @keydown.enter="enterKey"/>
-                </span>
-            </div>
-            <div class="card flex justify-content-center">
-                <div class="flex flex-wrap gap-3">
-                    <div class="flex align-items-center">
-                        <RadioButton v-model="state.ingredient" inputId="ingredient1" name="choice" value="user" />
-                        <label for="ingredient1" class="ml-2">按用户</label>
-                    </div>
-                    <div class="flex align-items-center">
-                        <RadioButton v-model="state.ingredient" inputId="ingredient2" name="choice" value="news" />
-                        <label for="ingredient2" class="ml-2">按新闻</label>
-                    </div>
-                </div>
-            </div>
-        </header> -->
-        <!-- <section class="container">
-            <section class="left">
-                <Item>
-                    <newsLine :newsID="state.n_id"></newsLine>
-                </Item>
-                
-                <Item>
-                    <recommend></recommend>
-                </Item>
-            </section>
-            <section class="right">
-                <Item>
-                    <categoryLine></categoryLine>
-                </Item>
-                <Item>
-                    <NewsQuery></NewsQuery>
-                </Item>
-                <Item>
-                    <UserNewsLine :UserID="state.u_id"></UserNewsLine>
-                </Item>
-            </section>
-        </section> -->
 
 </template>
 
 <script>
-import Item from "@/components/item.vue"
-import newsLine from "@/components/newsLine.vue"
-import categoryLine from "@/components/categoryLine.vue"
-import UserNewsBar from "@/components/UserNewsBar.vue"
-import UserNewsLine from "@/components/UserNewsLine.vue"
-import recommend from "@/components/recommend.vue"
-import NewsQuery from "@/components/NewsQuery.vue"
-import {inject, reactive,onMounted} from "vue"
-import InputText from 'primevue/inputtext';
-import Checkbox from 'primevue/checkbox';
 //theme
 import "primevue/resources/themes/lara-light-indigo/theme.css";     
     
@@ -84,47 +31,11 @@ const ingredient = ref('');
 
 export default {
     components :{
-        // Item,
-        // newsLine,
-        // //categoryLine,
-        // //UserNewsBar,
-        // //recommend,
-        // //NewsQuery,
-        // UserNewsLine,
-        // InputText,
-        // RadioButton,
         Navigation
     },
 
     setup(){
-        //接收
-        // let $echarts = inject("echarts")
-        // let $http = inject("axios")
-        // const state=reactive({
-        //     ingredient:'user',
-        //     value1:'',
-        //     u_id:'U201361',
-        //     n_id:'N27499'
-        // });
-
-        // const enterKey=()=>{
-        //     if(state.ingredient==='user'){
-        //         state.u_id=state.value1
-        //         console.log("test")
-        //         console.log(state.u_id)
-        //     }
-        //     else if(state.ingredient==='news'){
-        //         state.n_id=state.value1
-        //         console.log(state.n_id)
-        //     }
-        // };
         
-        // onMounted(()=>{
-        //     //console.log(global_msg.newsID)
-        // })
-        // return{
-        //     state,enterKey
-        // }
     }
 }
 
