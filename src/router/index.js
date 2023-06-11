@@ -9,7 +9,7 @@ import categoryLine from '@/views/categoryLine'
 const routes = [
   {
     path: '/',
-    redirect: '/UserLine'
+    redirect: '/NewsLine'
   },
   {
     path: '/home',

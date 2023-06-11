@@ -13,27 +13,7 @@
       </el-main>
     </el-container>
     </el-container>
-        <!-- <header>
-            
-            <div class="search">
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search" />
-                    <InputText v-model="state.value1" class="p-inputtext-sm" placeholder="Search" @keydown.enter="enterKey"/>
-                </span>
-            </div>
-            <div class="card flex justify-content-center">
-                <div class="flex flex-wrap gap-3">
-                    <div class="flex align-items-center">
-                        <RadioButton v-model="state.ingredient" inputId="ingredient1" name="choice" value="user" />
-                        <label for="ingredient1" class="ml-2">按用户</label>
-                    </div>
-                    <div class="flex align-items-center">
-                        <RadioButton v-model="state.ingredient" inputId="ingredient2" name="choice" value="news" />
-                        <label for="ingredient2" class="ml-2">按新闻</label>
-                    </div>
-                </div>
-            </div>
-        </header> -->
+       
         <!-- <section class="container">
             <section class="left">
                 <Item>
@@ -60,16 +40,6 @@
 </template>
 
 <script>
-import Item from "@/components/item.vue"
-import newsLine from "@/components/newsLine.vue"
-import categoryLine from "@/components/categoryLine.vue"
-import UserNewsBar from "@/components/UserNewsBar.vue"
-import UserNewsLine from "@/components/UserNewsLine.vue"
-import recommend from "@/components/recommend.vue"
-import NewsQuery from "@/components/NewsQuery.vue"
-import {inject, reactive,onMounted} from "vue"
-import InputText from 'primevue/inputtext';
-import Checkbox from 'primevue/checkbox';
 //theme
 import "primevue/resources/themes/lara-light-indigo/theme.css";     
     

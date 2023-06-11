@@ -1,5 +1,26 @@
 <template>
+    <link rel="stylesheet" href="https://unpkg.com/primeicons/primeicons.css" />
     <div>
+        <header>
+            <div class="search">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search" />
+                    <InputText v-model="state.value1" class="p-inputtext-sm" placeholder="Search" @keydown.enter="enterKey"/>
+                </span>
+            </div>
+            <div class="card flex justify-content-center">
+                <div class="flex flex-wrap gap-3">
+                    <div class="flex align-items-center">
+                        <RadioButton v-model="state.ingredient" inputId="ingredient1" name="choice" value="user" />
+                        <label for="ingredient1" class="ml-2">按用户</label>
+                    </div>
+                    <div class="flex align-items-center">
+                        <RadioButton v-model="state.ingredient" inputId="ingredient2" name="choice" value="news" />
+                        <label for="ingredient2" class="ml-2">按新闻</label>
+                    </div>
+                </div>
+            </div>
+        </header>
         <div class="top">
             <h2>单个新闻生命周期内点击量</h2>
         <div id="chartOne" class="chart">
@@ -11,9 +32,18 @@
 
 <script>    
 import {inject , onMounted,ref, reactive,watch,onBeforeUnmount} from "vue"
-import {getLifeTime,newsClickDay} from "@/request/api/home.js"
+import {getLifeTime,newsClickByDay} from "@/request/api/home.js"
+import 'primevue/resources/themes/saga-blue/theme.css';
+import 'primevue/resources/primevue.min.css';
+import 'primeicons/primeicons.css';
+import RadioButton from 'primevue/radiobutton';
+import InputText from 'primevue/inputtext';
 
     export default{
+        components :{
+            RadioButton,
+            InputText
+        },
         props:{
             newsID:
             {
@@ -34,11 +64,18 @@ import {getLifeTime,newsClickDay} from "@/request/api/home.js"
             let interval=null//定时器
             let isLoading=false
 
+            const state=reactive({
+            ingredient:'user',
+            value1:'',
+            u_id:'U201361',
+            n_id:'N27499'
+        });
+
             async function getState(){
                 if(isLoading) return;
                 isLoading=true
                 try{
-                    data=await getLifeTime(props.newsID)
+                    data=await getLifeTime(state.n_id)
                     //console.log(global_msg.newsID)
                     let startTime=new Date(data.data.start)
                     let endTime=new Date(data.data.end)
@@ -66,14 +103,14 @@ import {getLifeTime,newsClickDay} from "@/request/api/home.js"
                 counts.value=[]
                 while (currDate <= endDate) {
                     let dateStr = `${currDate.getFullYear()}-${currDate.getMonth() + 1}-${currDate.getDate()}`
-                    DATA.newId=props.newsID
+                    DATA.newId=state.n_id
                     DATA.year=currDate.getFullYear()
                     DATA.month=currDate.getMonth() + 1
                     DATA.day=currDate.getDate()
 
                     console.log(DATA.newId)
 
-                    let countData = await newsClickDay(DATA)
+                    let countData = await newsClickByDay(DATA)
                     console.log(countData)
                     counts.value.push({
                         date: dateStr,
@@ -161,6 +198,16 @@ import {getLifeTime,newsClickDay} from "@/request/api/home.js"
             },1000*5)//每隔30s请求一次数据
         }
 
+        const enterKey=()=>{
+            if(state.ingredient==='user'){
+                state.u_id=state.value1
+                console.log(state.u_id)
+            }
+            else if(state.ingredient==='news'){
+                state.n_id=state.value1
+                console.log(state.n_id)
+            }
+        };
             onMounted(()=>{
                 getState()
                 setTimeout(() => {
@@ -176,13 +223,41 @@ import {getLifeTime,newsClickDay} from "@/request/api/home.js"
             })
 
             return{
-                getState,data
+                getState,data,enterKey,state
             }
         }
     }
 </script>
 
 <style lang="less">
+    header{
+    height: 3.75rem;
+    width: 100%;
+    .p-input-icon-left{
+            position: absolute;
+            right: 15rem;
+            top: 10px;
+        } 
+    .card{
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        align-items: center;
+        position: absolute;
+        top: 1.125rem;
+        right: 2.5rem;
+        .ml-1,.ml-2{
+            color: rgb(34, 33, 33);
+            font-size: large;
+            font-weight: 200;
+        }
+    }
+    .flex {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+}
     .top{
         width: 100%;
     h2{
@@ -196,10 +271,9 @@ import {getLifeTime,newsClickDay} from "@/request/api/home.js"
       
      #chartOne{
         position: absolute;
-        left: 20px;
-        right: 20px;
-        width: 42.5rem;
-        height: 23rem;
+        left: 400px;
+        width: 60rem;
+        height: 33rem;
         } 
     }  
 </style>
