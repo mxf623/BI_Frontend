@@ -89,6 +89,7 @@
 </template>
 
 <script>
+import {multiQuery} from '@/request/api/home.js'
 export default {
   data() {
     return {
@@ -209,27 +210,31 @@ export default {
       if (true) {
         let vim = this;
         console.log('addd')
-        this.$axios
-          .post("/multiQuery", {
-            start_time:vim.start_time,
+        var needs={
+          start_time:vim.start_time,
             end_time:vim.end_time,
             category:vim.category,
             titleLength_max:vim.titleLength_max,
             newsLength_max:vim.newsLength_max,
             userId:vim.userId,
             amount:vim.amount
-          })
-          .then((res) => {
-            console.log(res)
-            for (let item of res.data) {
-              vm.count = vm.count + 1;
-              vm.tableData.push(item);
-            }
-          });
-      }
-      vm.count = 0;
+                }
+                multiQuery(needs)
+        .then((data) => {
+          for (let item of data.data) {
+                vm.count = vm.count + 1;
+                vm.tableData.push(item);
+          }
+          console.log(data); // 处理获取到的数据
+        })
+        .catch((error) => {
+          console.log(error); // 处理错误
+        });
+            vm.count = 0;
+
+        }
     },
-  },
+  }
 };
 </script>
 
