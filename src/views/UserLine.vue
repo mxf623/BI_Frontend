@@ -34,8 +34,8 @@
                     <label for="sports" class="ml-2"> sports </label>
                 </div>
                 <div class="flex align-items-center">
-                    <Checkbox v-model="option.FD" inputId="F&&D" name="option" value="F&&D" />
-                    <label for="FD" class="ml-3"> F&&D </label>
+                    <Checkbox v-model="option.foodanddrink" inputId="foodanddrink" name="option" value="F&&D" />
+                    <label for="foodanddrink" class="ml-3"> F&&D </label>
                 </div>
                 <div class="flex align-items-center">
                     <Checkbox v-model="option.finance" inputId="finance" name="option" value="finance" />
@@ -137,7 +137,7 @@ export default {
             const option=reactive({
                 news: false,
                 sports: false,
-                FD: false,
+                foodanddrink: false,
                 finance: false,
                 music: false,
                 lifestyle: false,

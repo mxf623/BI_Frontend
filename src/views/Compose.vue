@@ -135,7 +135,7 @@ export default {
           label: "sports",
         },
         {
-          value: "FD",
+          value: "foodanddrink",
           label: "FD",
         },
         {
@@ -211,13 +211,20 @@ export default {
         let vim = this;
         console.log('addd')
         var needs={
-          start_time:vim.start_time,
-            end_time:vim.end_time,
-            category:vim.category,
-            titleLength_max:vim.titleLength_max,
-            newsLength_max:vim.newsLength_max,
-            userId:vim.userId,
-            amount:vim.amount
+          // start_time:vim.start_time,
+          //   end_time:vim.end_time,
+          //   category:vim.category,
+          //   titleLength_max:vim.titleLength_max,
+          //   newsLength_max:vim.newsLength_max,
+          //   userId:vim.userId,
+          //   amount:vim.amount
+          start_time:'2019-6-10',
+            end_time:'2019-6-25',
+            category:'news',
+            titleLength_max:'2000000',
+            newsLength_max:'39000000',
+            userId:'U201361',
+            amount:'300'
                 }
                 multiQuery(needs)
         .then((data) => {
