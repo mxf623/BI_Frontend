@@ -1,23 +1,20 @@
 <template>
     <div class="recommend">
         <h2>实时推送</h2>
-        <!-- <div v-for="item in res" :key="item.newsId" class="newsTitle">
-            {{item.headline}}
-            {{item.newsId}}
-            {{item.topic}}
-            {{item.newsBody}}
-        </div> -->
-        <el-table :data="res" stripe style="width: 100%">
+        
+        <!-- <div>新闻类型：{{category[0].type}}</div>
+        <div>点击量：{{category[0].amount}}</div>
+        <div>新闻类型：{{category[0].type}}</div> -->
+        <!-- <el-table :data="res" stripe style="width: 100%">
         <el-table-column prop="newsId" label="新闻id">
         </el-table-column>
-        <el-table-column prop="category" label="新闻类型"> </el-table-column>
         <el-table-column prop="topic" label="新闻主题">
         </el-table-column>
         <el-table-column prop="headline" label="新闻标题">
         </el-table-column>
         <el-table-column prop="newsBody" label="新闻内容" :show-overflow-tooltip="true">
         </el-table-column>
-      </el-table>
+      </el-table> -->
     </div>
 </template>
 
@@ -27,26 +24,27 @@ import {getNewsCA,recommendCategory} from "@/request/api/home.js"
 
 export default{
     setup(){
-        let interval=null//定时器
-        let data=reactive({})
-        let category=reactive({})
-        let res=ref([])
+        //let interval=null//定时器
+        // let data=reactive([])
+        // let category=reactive([])
+        // let res=ref([])
 
         async function getState(){
             data=await recommendCategory()
-            category=data.data
-            console.log(category)
+            //category.value=data.data
+            console.log('data.data')
 
-            let needs={
-                category:"news",
-                amount:9
-            }
+            // for(var i=0;i<category.value.length;i++){
+            //     let needs={
+            //         category:category.value[i].type,
+            //         amount:3
+            //     }
+            //     let result=await getNewsCA(needs)
+            //     //res.value=result.data
+            //     res.value.push(result.data)
+            // }
 
-            needs.category=category
-            console.log(needs)
-            let result=await getNewsCA(needs)
-            res.value=result.data
-            console.log(res)
+            
         }
 
         function Timer(){
@@ -57,7 +55,7 @@ export default{
 
         onMounted(()=>{
             getState()
-            Timer()
+            //Timer()
         })
 
         onBeforeUnmount(()=>{

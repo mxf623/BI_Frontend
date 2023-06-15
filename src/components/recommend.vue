@@ -27,6 +27,9 @@ export default{
                 category:"news",
                 amount:13
             }
+            for(var i=0;i<category.length;i++){
+                
+            }
 
             needs.category=category
             console.log(needs)
